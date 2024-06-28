@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <title>Hangman</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .hangman-drawing {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .hangman-drawing canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body
+    class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
+  >
+    <h1 class="text-4xl font-bold mb-8">Hangman Game</h1>
+    <div id="word" class="text-3xl mb-4">_ _ _ _ _</div>
+    <div id="message" class="text-xl mb-4"></div>
+    <input
+      type="text"
+      id="letter-input"
+      maxlength="1"
+      class="border p-2 mb-4"
+    />
+    <button id="guess-button" class="bg-blue-500 text-white px-4 py-2">
+      Guess
+    </button>
+    <button id="new-game-button" class="bg-green-500 text-white px-4 py-2 mt-4">
+      New Game
+    </button>
+    <div class="hangman-drawing">
+      <canvas id="hangman" width="200" height="200"></canvas>
+    </div>
+    <div id="letters-guessed" class="mt-4">Guessed Letters:</div>
+    <div id="winStreak" class="mt-4"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
