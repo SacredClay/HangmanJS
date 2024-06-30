@@ -19,6 +19,20 @@
       body {
         font-family: Arial, sans-serif;
       }
+      .bgGrid {
+        background-size: 40px 40px;
+        background-image: linear-gradient(
+            to right,
+            #eef2ff 1px,
+            transparent 1px
+          ),
+          linear-gradient(to bottom, #eef2ff 1px, transparent 1px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
       .hangman-drawing {
         display: flex;
         justify-content: center;
@@ -30,10 +44,8 @@
       }
     </style>
   </head>
-  <body
-    class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
-  >
-    <h1 class="text-4xl font-bold mb-8">Hangman Game</h1>
+  <body class="bgGrid">
+    <h1 class="text-4xl font-bold mb-8 text-orange-400">Hangman Game</h1>
     <div id="word" class="text-3xl mb-4">_ _ _ _ _</div>
     <div id="message" class="text-xl mb-4"></div>
     <input
@@ -42,18 +54,28 @@
       maxlength="1"
       class="border p-2 mb-4"
     />
-    <button id="guess-button" class="bg-blue-500 text-white px-4 py-2">
+    <button
+      id="guess-button"
+      class="bg-blue-500 text-white px-4 py-2 hover:opacity-60"
+    >
       Guess
     </button>
-    <button id="new-game-button" class="bg-green-500 text-white px-4 py-2 mt-4">
+    <button
+      id="new-game-button"
+      class="bg-green-500 text-white px-4 py-2 mt-4 hover:opacity-60"
+    >
       New Game
     </button>
     <div class="hangman-drawing">
       <canvas id="hangman" width="200" height="200"></canvas>
     </div>
     <div id="letters-guessed" class="mt-4">Guessed Letters:</div>
-    <div id="winStreak" class="mt-4"></div>
-    <button id="muteButton"><i class="fa-solid fa-volume-xmark"></i></button>
+    <div id="winStreak" class="mt-4 p-2 gap-4">
+      <i class="fa-solid fa-star"></i>Winstreak: 0
+    </div>
+    <button class="m-3 text-3xl hover:opacity-50" id="muteButton">
+      <i class="fa-solid fa-volume-high"></i>
+    </button>
     <script src="app.js"></script>
   </body>
 </html>
