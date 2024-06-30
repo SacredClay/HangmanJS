@@ -5,8 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     "Wow Incredible.wav",
   ];
   const loserSounds = ["Failure.wav", "Continue.wav", "Game Over.wav"];
+  const filePath = "words.txt";
   let selectedWord, guessedLetters, incorrectGuesses;
   let winStreakCount = 0;
+  let muted = false;
 
   const maxIncorrectGuesses = 8;
   const wordDisplay = document.getElementById("word");
@@ -17,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const newGameButton = document.getElementById("new-game-button");
   const winStreak = document.getElementById("winStreak");
   const canvas = document.getElementById("hangman");
+  const mutedButton = document.getElementById("muteButton");
   const ctx = canvas.getContext("2d");
 
   function initGame() {
@@ -103,8 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function readWord() {
-    const filePath = "words.txt";
-
     return fetch(filePath)
       .then((response) => {
         if (!response.ok) {
@@ -187,13 +188,22 @@ document.addEventListener("DOMContentLoaded", () => {
   function winSound() {
     const randomIndex = Math.floor(Math.random() * winnerSounds.length);
     let victorySound = new Audio(`sounds/${winnerSounds[randomIndex]}`);
-    victorySound.play();
+    if (!muted) {
+      victorySound.play();
+    }
   }
 
   function lossSound() {
     const randomIndex = Math.floor(Math.random() * loserSounds.length);
     let loseSound = new Audio(`sounds/${loserSounds[randomIndex]}`);
-    loseSound.play();
+    if (!muted) {
+      loseSound.play();
+    }
+  }
+
+  function toggleAudio() {
+    muted = !muted;
+    console.log("Status is " + muted);
   }
 
   guessButton.addEventListener("click", handleGuess);
@@ -204,6 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   newGameButton.addEventListener("click", initGame);
+  mutedButton.addEventListener("click", toggleAudio);
 
   initGame();
 });
