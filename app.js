@@ -1,15 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
+  let selectedWord, guessedLetters, incorrectGuesses;
+  let winStreakCount = 0;
+  let muted = false;
+
+  //Winner and loser sound files
   const winnerSounds = [
     "Complete.wav",
     "Congratulations.wav",
     "Wow Incredible.wav",
   ];
   const loserSounds = ["Failure.wav", "Continue.wav", "Game Over.wav"];
+  //Where the guessable words are
   const filePath = "words.txt";
-  let selectedWord, guessedLetters, incorrectGuesses;
-  let winStreakCount = 0;
-  let muted = false;
-
+  //Amount of guesses
   const maxIncorrectGuesses = 8;
   const wordDisplay = document.getElementById("word");
   const messageDisplay = document.getElementById("message");
@@ -22,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const mutedButton = document.getElementById("muteButton");
   const ctx = canvas.getContext("2d");
 
+  //Starting the game, called when a new game is made
   function initGame() {
     randomWord()
       .then((word) => {
@@ -42,6 +46,43 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+  //Reading from the words txt file
+  function readWord() {
+    return fetch(filePath)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.text();
+      })
+      .then((data) => {
+        const lines = data.split("\n");
+        return lines; // Return the array of lines
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+        throw error; // Propagate the error
+      });
+  }
+
+  //Generating a random word from the text file
+  function randomWord() {
+    return readWord()
+      .then((lines) => {
+        if (lines.length > 0) {
+          const randomIndex = Math.floor(Math.random() * lines.length);
+          return lines[randomIndex].trim(" ");
+        } else {
+          throw new Error("The file is empty or only contains empty lines.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        throw error; // Propagate the error
+      });
+  }
+
+  //Drawing the hangman canvas and the limbs
   function drawHangman() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.lineWidth = 2;
@@ -105,42 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
     wordDisplay.textContent = display;
   }
 
-  function readWord() {
-    return fetch(filePath)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
-        }
-        return response.text();
-      })
-      .then((data) => {
-        const lines = data.split("\n");
-        return lines; // Return the array of lines
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-        throw error; // Propagate the error
-      });
-  }
-
-  function randomWord() {
-    return readWord()
-      .then((lines) => {
-        if (lines.length > 0) {
-          const randomIndex = Math.floor(Math.random() * lines.length);
-          return lines[randomIndex].trim(" ");
-        } else {
-          throw new Error("The file is empty or only contains empty lines.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        throw error; // Propagate the error
-      });
-  }
-
   function updateWinstreak() {
-    winStreak.textContent = "Current winstreak: " + winStreakCount;
+    winStreak.innerHTML = `<i class="fa-solid fa-star"></i>Winstreak: ${winStreakCount}`;
   }
 
   function checkWin() {
@@ -203,7 +210,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function toggleAudio() {
     muted = !muted;
-    console.log("Status is " + muted);
+    if (muted) {
+      mutedButton.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+    } else {
+      mutedButton.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+    }
   }
 
   guessButton.addEventListener("click", handleGuess);
