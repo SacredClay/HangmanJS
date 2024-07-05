@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
   const loserSounds = ["Failure.wav", "Continue.wav", "Game Over.wav"];
   //Where the guessable words are
-  const filePath = "words.txt";
+  const filePath = "src/words.txt";
   //Amount of guesses
   const maxIncorrectGuesses = 8;
   const wordDisplay = document.getElementById("word");
