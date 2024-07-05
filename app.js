@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((lines) => {
         if (lines.length > 0) {
           const randomIndex = Math.floor(Math.random() * lines.length);
-          return lines[randomIndex].trim(" ");
+          return lines[randomIndex].trim(" ").toLowerCase();
         } else {
           throw new Error("The file is empty or only contains empty lines.");
         }
