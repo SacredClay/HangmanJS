@@ -3,6 +3,7 @@ A simple game of hangman with HTML, CSS, AND JS.
 
 This game gives you 8 attempts to guess the word, 1 letter a time.
 If you guess the word, congratulations! Keep up the winstreak!
+
 ![image](https://github.com/SacredClay/HangmanJS/assets/51277496/64648d78-8d5c-4061-a260-050bba713ac5)
 
 
